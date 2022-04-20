@@ -2,6 +2,10 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"name": "esp d1 mini pro",
+			"path": "..\\esp d1 mini pro"
 		}
 	],
 	"settings": {}
