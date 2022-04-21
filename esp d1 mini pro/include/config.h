@@ -17,10 +17,13 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #elif defined(ESP8266)
+#include <FS.h>
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESP8266mDNS.h>
 #endif
+
+#include <ESPAsyncWebServer.h>
 
 #define SSID "WKC"
 #define PASSWORD "23752755"
