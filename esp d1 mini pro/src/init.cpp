@@ -3,6 +3,7 @@
 #include "init.h"
 
 void wifi_init(WiFiMode mode){ //WIFI_AP_STA or WIFI_AP
+    WiFi.disconnect();
     WiFi.mode(mode);
     if(mode == WIFI_AP_STA){
         WiFi.begin(DEF_SSID,DEF_PASSWORD);
@@ -28,10 +29,19 @@ String processor() { return String("l");}
 
 void handleRoot(AsyncWebServerRequest *req){
     req->send(LittleFS,"/index.html",false,processor);
+    //compiling problems req->send()
 }
+
 AsyncWebServer server(80);
+
 void webserver_init(){
-    server.on("/",handleRoot);
+    //server.on("/",handleRoot);  // use fs index.html
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(200, "text/plain", "Hello World!");});
+
+    server.onNotFound([](AsyncWebServerRequest *request){
+	    request->send(404, "text/plain", "not Found!"); });
+
     server.begin();
 }
 
