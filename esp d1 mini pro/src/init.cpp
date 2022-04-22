@@ -38,9 +38,11 @@ void webserver_init(){
     //server.on("/",handleRoot);  // use fs index.html
     //server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){request->send(200, "text/plain", "Hello World!");});
     server.on("/",[](AsyncWebServerRequest *req){
-        req->send(LittleFS,"/index.html",String(),false, processor);
+        //req->send(LittleFS,"/index.html",String(),false, processor);
+        req->send(LittleFS,"/index.html","text/html");
     });
     //server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){request->send(LittleFS, "/index.html", String(), false, processor);});
+//server.serveStatic("/", SPIFFS, "/", CACHE_HEADER).setDefaultFile("index.html");
 
     server.onNotFound([](AsyncWebServerRequest *request){
 	    request->send(404, "text/plain", "not Found!"); });
