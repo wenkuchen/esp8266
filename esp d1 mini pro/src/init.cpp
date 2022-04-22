@@ -25,10 +25,10 @@ void fs_init(){
         Serial.println("Cannot mount LittleFS volume...");
 }
 
-String processor() { return String("l");}
+String processor(const String &var) { return String("l");}
 
 void handleRoot(AsyncWebServerRequest *req){
-    req->send(LittleFS,"/index.html",false,processor);
+    //req->send(LittleFS,"/index.html",false,processor);
     //compiling problems req->send()
 }
 
@@ -36,8 +36,11 @@ AsyncWebServer server(80);
 
 void webserver_init(){
     //server.on("/",handleRoot);  // use fs index.html
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(200, "text/plain", "Hello World!");});
+    //server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){request->send(200, "text/plain", "Hello World!");});
+    server.on("/",[](AsyncWebServerRequest *req){
+        req->send(LittleFS,"/index.html",String(),false, processor);
+    });
+    //server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){request->send(LittleFS, "/index.html", String(), false, processor);});
 
     server.onNotFound([](AsyncWebServerRequest *request){
 	    request->send(404, "text/plain", "not Found!"); });
