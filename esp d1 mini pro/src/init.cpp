@@ -24,10 +24,14 @@ void fs_init(){
         Serial.println("Cannot mount LittleFS volume...");
 }
 
-void handleRoot(){}
+String processor() { return String("l");}
+
+void handleRoot(AsyncWebServerRequest *req){
+    req->send(LittleFS,"/index.html",false,processor);
+}
+AsyncWebServer server(80);
 void webserver_init(){
-    static AsyncWebServer server(80);
-    //server.on("/",handleRoot);
+    server.on("/",handleRoot);
     server.begin();
 }
 
