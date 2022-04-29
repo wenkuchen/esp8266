@@ -1,1 +1,1 @@
-void esp_init();
+void esp8266_init();

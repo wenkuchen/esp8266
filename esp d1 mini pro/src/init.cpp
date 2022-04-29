@@ -50,7 +50,7 @@ void webserver_init(){
     server.begin();
 }
 
-void esp_init(){
+void esp8266_init(){
     fs_init();
     wifi_init(WIFI_AP_STA); // or WIFI_AP
     webserver_init();
