@@ -10,17 +10,19 @@
  *
  * Note: default MSS for ESPAsyncTCP is 536 byte and defualt ACK timeout is 5s.
 */
+
 #ifdef ESP32
-#include <ESPmDNS.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include "SPIFFS.h"
 #elif defined(ESP8266)
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
-#include <ESP8266mDNS.h>
+#include <ESPAsyncWebServer.h>
+#include <LittleFS.h>
 #endif
 
-#include <LittleFS.h>
 #include <ESPAsyncWebServer.h>
 
 #define DEF_SSID "WKC"
