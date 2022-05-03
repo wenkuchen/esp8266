@@ -6,6 +6,10 @@
 		{
 			"name": "esp d1 mini pro",
 			"path": "..\\esp d1 mini pro"
+		},
+		{
+			"name": "hx711 lcd d1 mini pro",
+			"path": "..\\hx711 lcd d1 mini pro"
 		}
 	],
 	"settings": {}
