@@ -24,10 +24,12 @@ void wifi_init(WiFiMode mode){ //WIFI_AP_STA or WIFI_AP
 void fs_init(){
     if(!SPIFFS.begin())
         Serial.println("Cannot mount LittleFS volume...");
+        else Serial.println("SPIFFS mounted!");
 } **/
 void fs_init(){
     if(!LittleFS.begin())
         Serial.println("Cannot mount LittleFS volume...");
+        else Serial.println("LittleFS mounted!");
 }
 
 AsyncWebServer server(80);
