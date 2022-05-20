@@ -25,6 +25,11 @@
 #include <WiFiUdp.h>
 #endif
 
+<<<<<<< HEAD
+=======
+#include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
+
+>>>>>>> efe211242d71e482acd5b55325a736f22d18231c
 #define DEF_SSID "WKC"
 #define DEF_PASSWORD "23752755"
 
