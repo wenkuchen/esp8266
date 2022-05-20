@@ -19,7 +19,26 @@ void LcdMsgLine(int col, int row, String msg){
   lcd.setCursor(col,row);
   lcd.println(msg);   
 }
+/**
+void setup() {
+  Serial.begin(115200);
+  scale.begin(DT_PIN, SCK_PIN);
+  scale.set_scale();  // 開始取得比例參數
+  scale.tare();
+  Serial.println("Nothing on it.");
+  Serial.println(scale.get_units(10));
+  Serial.println("Please put sapmple object on it..."); //提示放上基準物品
+  
+}
 
+void loop() {
+  float current_weight=scale.get_units(10);  // 取得10次數值的平均
+  float scale_factor=(current_weight/sample_weight);
+  Serial.print("Scale number:  ");
+  Serial.println(scale_factor,0);  // 顯示比例參數，記起來，以便用在正式的程式中
+  
+}
+**/
 void setup() {
   Serial.begin(115200);
   esp8266_init();
@@ -81,9 +100,5 @@ Serial.print("one reading:\t");
 Serial.print(scale.get_units(), 1);
 Serial.print("\t| average:\t");
 Serial.println(scale.get_units(10), 1);
-
-scale.power_down(); // put the ADC in sleep mode
-delay(5000);
-scale.power_up();
 
 }
