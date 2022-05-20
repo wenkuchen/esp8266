@@ -94,9 +94,17 @@ void webSocket_init() {
     server.addHandler(&ws);
 }
 
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP);
+
+void ntpClient_init(){
+    timeClient.begin();
+    timeClient.update();
+}
+
 void esp8266_init(){
     fs_init();
     wifi_init(WIFI_AP_STA); // or WIFI_AP
     webserver_init();
-    webSocket_init();
+    ntpClient_init();
 }

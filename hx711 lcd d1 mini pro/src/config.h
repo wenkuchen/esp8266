@@ -21,9 +21,9 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <LittleFS.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 #endif
-
-#include <ESPAsyncWebServer.h>
 
 #define DEF_SSID "WKC"
 #define DEF_PASSWORD "23752755"
