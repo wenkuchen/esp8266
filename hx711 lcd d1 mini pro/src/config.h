@@ -14,15 +14,18 @@
 #ifdef ESP32
 #include <WiFi.h>
 #include <AsyncTCP.h>
+#include <ESPmDNS.h>
 #include <ESPAsyncWebServer.h>
 #include "SPIFFS.h"
 #elif defined(ESP8266)
 #include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <LittleFS.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <ArduinoJson.h>
 #endif
 
 #define DEF_SSID "WKC"
