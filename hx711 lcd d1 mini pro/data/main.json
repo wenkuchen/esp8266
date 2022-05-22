@@ -1,7 +1,5 @@
 {
-    "ws_type":0,
-    "isLCD":true,
-    "Setting_type":"RefSet BaseSet",
+    "ws_type":"SET_UTIME,SET_REFADC,SET_BASEADC,LCD_MSG",
     "Line1":"lcd line1","Line2":"lcd line2",
     "CurrADC":0,
     "EmptyADC":0,

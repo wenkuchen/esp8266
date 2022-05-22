@@ -100,7 +100,7 @@ void printFile(const char *filename) {
 
 void setup() {
   // Initialize serial port
-  Serial.begin(9600);
+  Serial.begin(11520);
   while (!Serial) continue;
 
   // Initialize LittleFS library
