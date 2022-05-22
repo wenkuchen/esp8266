@@ -70,7 +70,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
         }
 }
 
-void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,
+void onWebsocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,
     void *arg, uint8_t *data, size_t len) {
     switch (type) {
         case WS_EVT_CONNECT:
@@ -90,7 +90,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
 }
 
 void webSocket_init() {
-    ws.onEvent(onEvent);
+    ws.onEvent(onWebsocketEvent);
     server.addHandler(&ws);
 }
 
