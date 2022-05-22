@@ -55,19 +55,23 @@ ws.textAll(state);
 }
 
 void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
+    // deserializeJson from *data which is JSON formatted
+    StaticJsonDocument<200> doc;
+    deserializeJson(doc,(char*)data);
     
+    /*
     AwsFrameInfo *info = (AwsFrameInfo*)arg;
 
     if (info->final && info->index == 0 
         && info->len == len && info->opcode == WS_TEXT){
         data[len] = 0;
-        /****
+    
         if (strcmp((char*)data, "bON") == 0) {
         ledState = 0;
         ws.textAll(state);
         }
-        ****/
         }
+    */
 }
 
 void onWebsocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,

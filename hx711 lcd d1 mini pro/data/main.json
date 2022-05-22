@@ -1,0 +1,10 @@
+{
+    "ws_type":0,
+    "isLCD":true,
+    "Setting_type":"RefSet BaseSet",
+    "Line1":"lcd line1","Line2":"lcd line2",
+    "CurrADC":0,
+    "EmptyADC":0,
+    "RefADC":0,
+    "WeightKG":0
+}
