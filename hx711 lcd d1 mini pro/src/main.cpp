@@ -7,6 +7,7 @@
 // HX711 circuit wiring
 const int LOADCELL_DOUT_PIN = 2;
 const int LOADCELL_SCK_PIN = 3;
+WS_msg_type wsType;
 
 HX711 scale; // init HX711 scale
 
@@ -40,6 +41,7 @@ void loop() {
 }
 **/
 void setup() {
+
   Serial.begin(115200);
   esp8266_init();
 	delay(20);

@@ -110,5 +110,6 @@ void esp8266_init(){
     fs_init();
     wifi_init(WIFI_AP_STA); // or WIFI_AP
     webserver_init();
+    webSocket_init();
     ntpClient_init();
 }
