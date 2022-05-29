@@ -1,4 +1,4 @@
-{
+{   "recommand_json_capacity":768,
     "scale":{
         "CurrADC":0,
         "BaseADC":0,
@@ -9,7 +9,7 @@
         "FileName":"hx711LcdScale.cpp",
         "hostname":"scale.local",
         "ap_ssid":"scale_espd1","ap_pswd":"23752755",
-        "ssid":"WKC","pswd":"23752755"},
+        "sta_ssid":"WKC","sta_spswd":"23752755"},
     "wsClient_msgType":{
         "SET_REF":0,
         "SET_REFKG":1,
