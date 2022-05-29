@@ -2,9 +2,12 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 
-StaticJsonDocument<768> doc;
+StaticJsonDocument<768> doc; 
+// ArduinoJson assitant recommnad capacity 768
 
-DeserializationError error = deserializeJson(doc, input);
+//File file = LittleFS.open("mani.json","R");
+File file=LittleFS.open("mani.json","r");
+DeserializationError error = deserializeJson(doc, file);
 
 if (error) {
   Serial.print(F("deserializeJson() failed: "));
@@ -13,7 +16,8 @@ if (error) {
 }
 
 JsonObject scale = doc["scale"];
-int scale_CurrADC = scale["CurrADC"]; // 0
+int scale_CurrADC=scale["CurrADC"];
+//int scale_CurrADC = scale["CurrADC"]; // 0
 int scale_BaseADC = scale["BaseADC"]; // 0
 int scale_RefADC = scale["RefADC"]; // 0
 int scale_RefKG = scale["RefKG"]; // 2
