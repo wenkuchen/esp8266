@@ -1,0 +1,59 @@
+#include <Arduino.h>
+#include "config.h"
+#include "init.h"
+#include <LiquidCrystal_I2C.h>
+#include "HX711.h"
+
+HX711 scale;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+// set the LCD address to 0x27 for a 16 chars and 2 line display
+// I2C 1602 LCD wiring with nodeMcu v3, SDA--D2(Gpio 4), SCL--D1(Gpio 5)
+long BaseADC,RefADC;
+long CurrADC = scale.read_average(20);
+
+long LastADC = CurrADC;
+
+int read_count = 0;
+const int read_count_max = 20;
+
+enum stateEnum
+{
+    ACTIVE,
+    IDLE
+};
+stateEnum state = ACTIVE;
+
+void scaleFSM(stateEnum state)
+{
+    switch (state)
+    {
+    case ACTIVE:
+        lcd.on();
+        while (1)
+        {
+            delay(200);
+            lcd.printf("CurrADC:%2f", CurrADC);
+            if (read_count > read_count_max)
+                break;
+            CurrADC = scale.read_average(10);
+            if (abs(LastADC - CurrADC) > (.05 * abs(LastADC)))
+                read_count = 0;
+        }
+        state = IDLE;
+        break;
+    case IDLE:
+        lcd.off();
+        while (1)
+        {
+            delay(200);
+            LastADC = CurrADC;
+            CurrADC = scale.read_average(10);
+            if (read_count > read_count_max)
+                break;
+            CurrADC = scale.read_average(10);
+            if (abs(LastADC - CurrADC) > (.05 * abs(LastADC)))
+                break;
+        }
+        state = ACTIVE;
+        break;
+    }
