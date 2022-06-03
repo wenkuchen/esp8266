@@ -54,24 +54,11 @@ void notifyClients(String state) {
 ws.textAll(state);
 }
 
-void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
+void handleClientWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     // deserializeJson from *data which is JSON formatted
     StaticJsonDocument<200> doc;
     deserializeJson(doc,(char*)data);
-    
-    /*
-    AwsFrameInfo *info = (AwsFrameInfo*)arg;
-
-    if (info->final && info->index == 0 
-        && info->len == len && info->opcode == WS_TEXT){
-        data[len] = 0;
-    
-        if (strcmp((char*)data, "bON") == 0) {
-        ledState = 0;
-        ws.textAll(state);
-        }
-        }
-    */
+    ws.textAll("dkdk"); // String to all clients
 }
 
 void onWebsocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,
@@ -85,7 +72,7 @@ void onWebsocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsE
             Serial.printf("WebSocket client #%u disconnected\n", client->id());
             break;
         case WS_EVT_DATA:
-            handleWebSocketMessage(arg, data, len);
+            handleClientWebSocketMessage(arg, data, len);
             break;
         case WS_EVT_PONG:
         case WS_EVT_ERROR:
