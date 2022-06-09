@@ -61,6 +61,41 @@ void handleClientWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     ws.textAll("dkdk"); // String to all clients
 }
 
+void handleClientWebSocketMessage(uint8_t* jdata){
+
+	DynamicJsonDocument doc(2014);
+	deserializeJson(doc, jdata); // json string from client
+	
+	JsonObject root = doc.as<JsonObject>();
+
+	JsonObject::iterator it=root.begin();
+
+	int idx=-1;
+	
+	for (int i=0;i<Ws_client_type_array_len;i++)
+  		if(strcmp(it.key().c_str(),Ws_client_type_array[i]))==0) {idx=i; break; }
+	
+	switch(idx){
+		case SET_REF:// SET_REF websocket message type
+			RefADC=CurrADC; 
+			ws.textall("SET_REF_OK");
+			break;
+		case SET_BASE :// SET_BASE websocket message tpye
+		   BaseADC=CurrADC; 
+		   ws.textall("SET_BASE_OK");
+			break;
+		case SET_REFKG:// SET_REFKG websocket message type 
+		   SET_REFKG: 
+		   RefKG=it.value().as<float>();            
+		   ws.textall("SET_REFKG_OK");
+			break;
+		case SET_UXTIME:
+			break;
+		default: 
+			break;
+	}
+}
+
 void onWebsocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,
     void *arg, uint8_t *data, size_t len) {
     switch (type) {
@@ -72,7 +107,8 @@ void onWebsocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsE
             Serial.printf("WebSocket client #%u disconnected\n", client->id());
             break;
         case WS_EVT_DATA:
-            handleClientWebSocketMessage(arg, data, len);
+            //handleClientWebSocketMessage(arg, data, len);
+	    handleClientWebSocketMessage(data);
             break;
         case WS_EVT_PONG:
         case WS_EVT_ERROR:
