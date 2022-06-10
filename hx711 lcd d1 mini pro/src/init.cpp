@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include "config.h"
 #include "init.h"
 
@@ -71,23 +72,25 @@ void handleClientWebSocketMessage(uint8_t* jdata){
 	JsonObject::iterator it=root.begin();
 
 	int idx=-1;
-	
-	for (int i=0;i<Ws_client_type_array_len;i++)
-  		if(strcmp(it.key().c_str(),Ws_client_type_array[i]))==0) {idx=i; break; }
+    
+	for (int i=0;i<WS_client_type_array_len;i++)
+  		if(strcmp(it.key().c_str()),WS_client_type_array[i])==0) 
+        {
+            idx=i; 
+            break; };
 	
 	switch(idx){
 		case SET_REF:// SET_REF websocket message type
 			RefADC=CurrADC; 
-			ws.textall("SET_REF_OK");
+			ws.textAll("SET_REF_OK");
 			break;
 		case SET_BASE :// SET_BASE websocket message tpye
 		   BaseADC=CurrADC; 
-		   ws.textall("SET_BASE_OK");
+		   ws.textAll("SET_BASE_OK");
 			break;
 		case SET_REFKG:// SET_REFKG websocket message type 
-		   SET_REFKG: 
 		   RefKG=it.value().as<float>();            
-		   ws.textall("SET_REFKG_OK");
+		   ws.textAll("SET_REFKG_OK");
 			break;
 		case SET_UXTIME:
 			break;

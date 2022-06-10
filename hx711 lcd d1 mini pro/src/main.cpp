@@ -22,16 +22,10 @@ void LcdMsgLine(int col, int row, String msg){
 
 CurrADC = scale.read_average(20);
 
-long LastADC = CurrADC;
+LastADC = CurrADC;
 
 int read_count = 0;
 const int read_count_max = 20;
-
-enum stateEnum
-{
-    ACTIVE,
-    IDLE
-};
 
 stateEnum state = ACTIVE;
 
@@ -44,7 +38,7 @@ void scaleFSM(stateEnum state)
         while (1)
         {
             delay(200);
-            lcd.printf("CurrADC:%2f", CurrADC);
+            lcd.printf("CurrADC:%l", CurrADC);
             if (read_count > read_count_max)
                 break;
             LastADC=CurrADC;
@@ -69,6 +63,7 @@ void scaleFSM(stateEnum state)
         }
         state = ACTIVE;
         break;
+    }
 }
 
 void setup() {
