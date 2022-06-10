@@ -38,7 +38,7 @@ void scaleFSM(stateEnum state)
         while (1)
         {
             delay(200);
-            lcd.printf("CurrADC:%l", CurrADC);
+            lcd.printf("CurrADC:%d", CurrADC);
             if (read_count > read_count_max)
                 break;
             LastADC=CurrADC;
