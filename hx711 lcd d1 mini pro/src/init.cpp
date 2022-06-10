@@ -67,6 +67,21 @@ void handleClientWebSocketMessage(uint8_t* jdata){
 	DynamicJsonDocument doc(2014);
 	deserializeJson(doc, jdata); // json string from client
 	
+    JsonObject root = doc.as<JsonObject>();
+    int idx=-1;
+
+    // using C++11 syntax (preferred):
+for (JsonPair kv : root) {
+    for (int i=0;i<WS_client_type_array_len;i++)
+  		if(strcmp(kv.key().c_str(),WS_client_type_array[i])==0) 
+        {
+            idx=i; 
+            break; };
+    Serial.println(kv.key().c_str());
+    Serial.println(kv.value().as<char*>());
+}
+
+/*
 	JsonObject root = doc.as<JsonObject>();
 
 	JsonObject::iterator it=root.begin();
@@ -78,7 +93,8 @@ void handleClientWebSocketMessage(uint8_t* jdata){
         {
             idx=i; 
             break; };
-	
+*/
+
 	switch(idx){
 		case SET_REF:// SET_REF websocket message type
 			RefADC=CurrADC; 
