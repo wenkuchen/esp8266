@@ -2,6 +2,17 @@
 #include <ArduinoJson.h>
 #include "config.h"
 #include "init.h"
+long CurrADC = 0;
+long BaseADC = 0;
+long RefADC = 0;
+long LastADC;
+float RefKG = 2.0;
+
+String toServer_WStypes="SET_REF,SET_BASE,SET_REFKG,SET_UXTIME";
+int toServer_WStypes_len = 4;
+String toClient_WStypes ="SET_REF_OK,SET_BASE_OK,SET_REFKG_OK,SET_UXTIME_OK,ON_CHG";
+int toClient_WStypes_len = 5;
+String update_scale_WS = "ON_UPDATE,BASE_ADC123,REF_ADC123,REF_KG23";
 
 void wifi_init(WiFiMode mode){ //WIFI_AP_STA or WIFI_AP
     WiFi.disconnect();
@@ -34,9 +45,7 @@ void fs_init(){
 }
 
 AsyncWebServer server(80); //default http webserver port at 80
-
-// Create a WebSocket object
-AsyncWebSocket ws("/ws");
+AsyncWebSocket ws("/ws"); // Create a websocket object
 
 void webserver_init(){
     server.on("/",[](AsyncWebServerRequest *req){
@@ -51,19 +60,35 @@ void webserver_init(){
     server.begin();
 }
 
-void notifyClients(String state) {
-ws.textAll(state);
+void handleClientWebSocketMessage(uint8_t *data){  // message as char* cvs string
+String s = (char*) data; // data is enum of int and if  SET_REFKG
+ 
+switch (s.toInt())
+{
+case SET_BASE /* constant-expression */:
+    /* code */ 
+    BaseADC = CurrADC; 
+    ws.textAll((char*)SET_BASE_OK);
+    break;
+case SET_REFKG /* constant-expression */:
+    /* code */ 
+    RefKG = s.substring(s.indexOf(",")).toFloat(); ws.textAll((char*)SET_REF_OK);
+    break;
+
+default:
+    break;
+}
 }
 
+/*
 void handleClientWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     // deserializeJson from *data which is JSON formatted
     StaticJsonDocument<200> doc;
     deserializeJson(doc,(char*)data);
     ws.textAll("dkdk"); // String to all clients
 }
-
-void handleClientWebSocketMessage(uint8_t* jdata){
-
+*/
+/*
 	DynamicJsonDocument doc(2014);
 	deserializeJson(doc, jdata); // json string from client
 	
@@ -72,15 +97,15 @@ void handleClientWebSocketMessage(uint8_t* jdata){
 
     // using C++11 syntax (preferred):
 for (JsonPair kv : root) {
-    for (int i=0;i<WS_client_type_array_len;i++)
-  		if(strcmp(kv.key().c_str(),WS_client_type_array[i])==0) 
+    for (int i=0;i<WS_client_types_len;i++)
+  		if(strcmp(kv.key().c_str(),WS_client_types.c_str)==0) 
         {
             idx=i; 
             break; };
     Serial.println(kv.key().c_str());
     Serial.println(kv.value().as<char*>());
 }
-
+*/
 /*
 	JsonObject root = doc.as<JsonObject>();
 
@@ -92,9 +117,9 @@ for (JsonPair kv : root) {
   		if(strcmp(it.key().c_str()),WS_client_type_array[i])==0) 
         {
             idx=i; 
-            break; };
+            b reak; };
 */
-
+/*
 	switch(idx){
 		case SET_REF:// SET_REF websocket message type
 			RefADC=CurrADC; 
@@ -114,7 +139,7 @@ for (JsonPair kv : root) {
 			break;
 	}
 }
-
+*/
 void onWebsocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type,
     void *arg, uint8_t *data, size_t len) {
     switch (type) {
@@ -151,6 +176,7 @@ void ntpClient_init(){
 void esp8266_init(){
     fs_init();
     wifi_init(WIFI_AP_STA); // or WIFI_AP
+    
     webserver_init();
     webSocket_init();
     ntpClient_init();

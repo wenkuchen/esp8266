@@ -8,10 +8,6 @@ HX711 scale;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 // set the LCD address to 0x27 for a 16 chars and 2 line display
 // I2C 1602 LCD wiring with nodeMcu v3, SDA--D2(Gpio 4), SCL--D1(Gpio 5)
-long BaseADC,RefADC;
-long CurrADC = scale.read_average(20);
-
-long LastADC = CurrADC;
 
 int read_count = 0;
 const int read_count_max = 20;
