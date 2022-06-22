@@ -2,17 +2,12 @@
 #include <ArduinoJson.h>
 #include "config.h"
 #include "init.h"
+
 long CurrADC = 0;
 long BaseADC = 0;
 long RefADC = 0;
 long LastADC;
 float RefKG = 2.0;
-
-String toServer_WStypes="SET_REF,SET_BASE,SET_REFKG,SET_UXTIME";
-int toServer_WStypes_len = 4;
-String toClient_WStypes ="SET_REF_OK,SET_BASE_OK,SET_REFKG_OK,SET_UXTIME_OK,ON_CHG";
-int toClient_WStypes_len = 5;
-String update_scale_WS = "ON_UPDATE,BASE_ADC123,REF_ADC123,REF_KG23";
 
 void wifi_init(WiFiMode mode){ //WIFI_AP_STA or WIFI_AP
     WiFi.disconnect();
@@ -58,6 +53,10 @@ void webserver_init(){
 	    request->send(404, "text/plain", "not Found!"); });
 
     server.begin();
+}
+
+void notifyWSclients(const char *str){
+    ws.textAll(str);
 }
 
 void handleClientWebSocketMessage(uint8_t *data){  // message as char* cvs string
@@ -175,8 +174,7 @@ void ntpClient_init(){
 
 void esp8266_init(){
     fs_init();
-    wifi_init(WIFI_AP_STA); // or WIFI_AP
-    
+    wifi_init(WIFI_AP_STA); // or WIFI_AP  
     webserver_init();
     webSocket_init();
     ntpClient_init();

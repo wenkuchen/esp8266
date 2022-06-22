@@ -27,6 +27,17 @@ scaleStateEnum scaleState = ACTIVE;
 
 void scaleFSM(scaleStateEnum state)
 {
+    //String s = (char*) Update_Scale_WS;
+    String s = String(ON_CHG,DEC);
+    s += ",";
+    s += String(CurrADC, DEC);
+    s += ",";
+    s += String(BaseADC, DEC);
+    s += ",";
+    s += String(RefADC, DEC);
+    s += ",";
+    s += String(RefKG, DEC);
+
     switch (state)
     {
     case ACTIVE:
@@ -35,6 +46,9 @@ void scaleFSM(scaleStateEnum state)
         {
             delay(200);
             lcd.printf("CurrADC:%ld", CurrADC);
+   
+            notifyWSclients(s.c_str()); // update client browser scale
+            Serial.println(s.c_str());
             if (read_count > read_count_max)
                 break;
             LastADC=CurrADC;
