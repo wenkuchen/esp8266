@@ -25,8 +25,27 @@ console.log('Connection closed');
 setTimeout(initWebSocket, 2000);
 }
 
-function handleWSmessage(ws_msg){
-    console.log(ws_msg);
+function handleWSmessage(ws_cvs){
+    console.log(ws_cvs);
+    let cvs_msg_array = ws_cvs.split(",");
+    let op = document.body.dataset.ToClient_WStypes[cvs_msg_array[0]];
+
+    switch(op) {
+        case "ON_CHG":
+            break;
+        case "SET_REF_OK":
+            window.alert("SET_REF_OK");
+            break;
+        case "SET_BASE_OK":
+            window.alert("SET_BASE_OK");
+            break;
+        case "SET_REFKG_OK":
+            window.alert("SET_REFKG_OK");
+            break;
+        default:
+            break;
+    }
+
 }
 
 function onMessage(event) {
