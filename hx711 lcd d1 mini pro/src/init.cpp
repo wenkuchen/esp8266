@@ -79,7 +79,8 @@ case SET_BASE /* constant-expression */:
     break;
 case SET_REFKG /* constant-expression */:
     /* code */ 
-    RefKG = s.substring(s.indexOf(",")).toFloat(); ws.textAll((char*)SET_REF_OK);
+    RefKG = s.substring(s.indexOf(",")).toFloat(); 
+    ws.textAll((char*)SET_REF_OK);
     break;
 
 default:

@@ -32,6 +32,7 @@ function handleWSmessage(ws_cvs){
 
     switch(op) {
         case "ON_CHG":
+            // update weight display here
             break;
         case "SET_REF_OK":
             window.alert("SET_REF_OK");
