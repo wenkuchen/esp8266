@@ -25,9 +25,14 @@ console.log('Connection closed');
 setTimeout(initWebSocket, 2000);
 }
 
+function handleWSmessage(ws_msg){
+    console.log(ws_msg);
+}
+
 function onMessage(event) {
-document.getElementById('state').innerHTML = event.data;
-console.log(event.data);
+//document.getElementById('state').innerHTML = event.data;
+//console.log(event.data);
+handleWSmessage(event.data);
 }
 
 /**** ********************************************

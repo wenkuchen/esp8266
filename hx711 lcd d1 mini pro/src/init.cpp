@@ -42,10 +42,18 @@ void fs_init(){
 AsyncWebServer server(80); //default http webserver port at 80
 AsyncWebSocket ws("/ws"); // Create a websocket object
 
+String processor (const String &var) {
+    //return (var=="ToServer_WStypes"? String(ToServer_WStypes):
+    if (var=="ToClient_WStypes") {return ToServer_WStypes; }
+    else if (var=="ToClient_WStypes") {return ToClient_WStypes;}
+    else if (var=="Update_Scale_WS") {return Update_Scale_WS;}
+    else return "";
+}
+
 void webserver_init(){
     server.on("/",[](AsyncWebServerRequest *req){
-        req->send(LittleFS,"/index.html","text/html");
-    });
+        req->send(LittleFS,"/index.html","text/html", false, processor);
+    });  // processor() to pre-process custom variables %somevar%
 
     server.serveStatic("/", LittleFS, "/"); // files css js files located same as root
 
