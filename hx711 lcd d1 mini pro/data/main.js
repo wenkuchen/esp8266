@@ -32,14 +32,16 @@ function updateScaleDOMs(csv_array){
     const SetKgADC = document.querySelector("#SetKgADC");
     const CurrKgADC = document.querySelector("#CurrKgADC");
     
-    let CURR_ADC = csv_array[1];
-    let BASE_ADC = csv_array[2];
-    let REF_ADC = csv_array[3];
-    let REF_KG = csv_array[4];
-    
-    RefKgADC.innerHTML = "something new";
-    SetKgADC.innerHTML = "something new";
-    CurrKgADC.innerHTML = "something new";
+    let curr_ADC = parseInt(csv_array[1]);
+    let base_ADC = parseInt(csv_array[2]);
+    let ref_ADC = parseInt(csv_array[3]);
+    let ref_KG = parseFloat(csv_array[4]);
+    let WeightInKg = (curr_ADC-base_ADC)/ref_ADC*ref_KG;
+    let WeightInLb = WeightInKg*2.205;
+
+    RefKgADC.innerHTML = "Reference ADC: " + ref_ADC;
+    SetKgADC.innerHTML = "Set KG ADC: " + ref_KG;
+    CurrKgADC.innerHTML = "Current ADC: " + curr_ADC;
 }
 
 function handleWSmessage(ws_csv){
