@@ -22,7 +22,8 @@ console.log('Connection opened');
 
 function onClose(event) {
 console.log('Connection closed');
-setTimeout(initWebSocket, 2000);
+//console.log(updateScaleDOMs([2,3,4,5,6]))
+//setTimeout(initWebSocket, 2000);
 }
 
 function updateScaleDOMs(csv_array){
@@ -34,7 +35,7 @@ function updateScaleDOMs(csv_array){
     const w_kg = document.querySelector("#weightInKg");
     const w_lb = document.querySelector("#weightInLb");
     
-    let curr_ADC = parseInt(csv_array[1]);
+    let curr_ADC = parseInt(csv_array[1]); console.log(csv_array[1]);
     let base_ADC = parseInt(csv_array[2]);
     let ref_ADC = parseInt(csv_array[3]);
     let ref_KG = parseFloat(csv_array[4]);
