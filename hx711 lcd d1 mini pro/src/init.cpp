@@ -46,7 +46,6 @@ String processor (const String &var) {
     //return (var=="ToServer_WStypes"? String(ToServer_WStypes):
     if (var=="ToClient_WStypes") {return ToServer_WStypes; }
     else if (var=="ToClient_WStypes") {return ToClient_WStypes;}
-    else if (var=="Update_Scale_WS") {return Update_Scale_WS;}
     else return "";
 }
 

@@ -25,14 +25,34 @@ console.log('Connection closed');
 setTimeout(initWebSocket, 2000);
 }
 
-function handleWSmessage(ws_cvs){
-    console.log(ws_cvs);
-    let cvs_msg_array = ws_cvs.split(",");
-    let op = document.body.dataset.ToClient_WStypes[cvs_msg_array[0]];
+function updateScaleDOMs(csv_array){
+    //typedef enum {CURR_ADC,BASE_ADC,REF_ADC,REF_KG} 
+    //update_scale_WSenum;
+    const RefKgADC = document.querySelector("#RefKgADC");
+    const SetKgADC = document.querySelector("#SetKgADC");
+    const CurrKgADC = document.querySelector("#CurrKgADC");
+    
+    let CURR_ADC = csv_array[1];
+    let BASE_ADC = csv_array[2];
+    let REF_ADC = csv_array[3];
+    let REF_KG = csv_array[4];
+    
+    RefKgADC.innerHTML = "something new";
+    SetKgADC.innerHTML = "something new";
+    CurrKgADC.innerHTML = "something new";
+}
+
+function handleWSmessage(ws_csv){
+    console.log(ws_csv);
+    let csv_msg_array = ws_csv.split(",");
+    let op = document.body.dataset.ToClient_WStypes[csv_msg_array[0]];
+    // websocket op code stored in the first item of the cvs message
 
     switch(op) {
-        case "ON_CHG":
+        case "ON_CHG":  // var f = parseInt("2string"); f->2
+            // parseFloat("10.33") + "<br>" +
             // update weight display here
+            updateScaleDOMs(csv_msg_array);
             break;
         case "SET_REF_OK":
             window.alert("SET_REF_OK");

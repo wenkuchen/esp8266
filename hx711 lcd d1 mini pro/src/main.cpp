@@ -28,8 +28,9 @@ scaleStateEnum scaleState = ACTIVE;
 void scaleFSM(scaleStateEnum state)
 {
     //String s = (char*) Update_Scale_WS;
-    String s = String(ON_CHG,DEC);
-    s += ",";
+    //ToClient_WStypes[ON_CHG]
+    String s = "ON_CHG"; // websocket op code
+    s += ","; // making comma separated csv string
     s += String(CurrADC, DEC);
     s += ",";
     s += String(BaseADC, DEC);

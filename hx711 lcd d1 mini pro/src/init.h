@@ -11,11 +11,10 @@ typedef enum {ACTIVE, IDLE
 } scaleStateEnum;
 typedef enum {SET_REF, SET_BASE, SET_REFKG, SET_UXTIME
 } toServer_WStypes_enum;
-typedef enum {SET_REF_OK, SET_BASE_OK, SET_REFKG_OK, SET_UXTIME_OK, ON_CHG
+typedef enum {ON_CHG,SET_REF_OK, SET_BASE_OK, SET_REFKG_OK, SET_UXTIME_OK
 } toClient_WStypes_enum;
-typedef enum {ON_UPDATE,BASE_ADC,REF_ADC,REF_KG
+typedef enum {CURR_ADC,BASE_ADC,REF_ADC,REF_KG
 } update_scale_WSenum;
 
 #define ToServer_WStypes "SET_REF,SET_BASE,SET_REFKG,SET_UXTIME"
-#define ToClient_WStypes "SET_REF_OK,SET_BASE_OK,SET_REFKG_OK,SET_UXTIME_OK,ON_CHG";
-#define Update_Scale_WS "ON_UPDATE,CURR_ADC123,BASE_ADC123,REF_ADC123,REF_KG23";
+#define ToClient_WStypes "ON_CHG,SET_REF_OK,SET_BASE_OK,SET_REFKG_OK,SET_UXTIME_OK"
