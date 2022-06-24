@@ -10,10 +10,14 @@
 <body data-ToServerWsTyppe="%ToServer_WStypes%" 
 data-ToClientWsTyppe="%ToClient_WStypes%">
     <h2>Hx711 LCD Server</h2>
-    <div id="RefKgADC">
-        <div id="SetKgADC">Referece 2Kg ADC: %SetKgADC%</div>
-        <div id="CurrKgADC">Current 2Kg ADC: %CurrKgADC%</div>
+    <div id="Scale">
+        <div id="CurrADC">Current 2Kg ADC: %CurrKgADC%</div>
+        <div id="RefKgADC">Current 2Kg ADC: %CurrKgADC%</div>
         <button id="setRefKg">Set Ref Weight</button>
+        <div id="setBaseADC">Current 2Kg ADC: %CurrKgADC%</div>
+        <button id="setBase">Set Empty ADC</button>
+        <div id="weightInKg">"000.2KG"</div>
+        <div id="weightInLb">"000.11LB"</div>
      </div>
      
      <div id="Weight">
