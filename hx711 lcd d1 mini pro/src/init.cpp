@@ -66,6 +66,16 @@ void notifyWSclients(const char *str){
     ws.textAll(str);
 }
 
+String make_js_ws_obj(int opcode){
+    String s; // js object string as '{"a":33,"b":93,"c":"hi"}'
+    s += "{\"op_code\":"; s += String(opcode,DEC);
+    s += ",\"curr_adc\":"; s += String(CurrADC,DEC);
+    s += ",\"base_adc\":"; s += String(BaseADC,DEC);
+    s += ",\"ref_adc\":"; s += String(RefADC,DEC);
+    s += ",\"ref_kg\":"; s += String(RefKG,2); // float with 2 decimal
+    s += "}";
+    return s;
+}
 void handleClientWebSocketMessage(uint8_t *data){  // message as char* cvs string
 String s = (char*) data; // data is enum of int and if  SET_REFKG
  

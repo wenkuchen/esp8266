@@ -1,5 +1,6 @@
 void esp8266_init();
 void notifyWSclients(const char* );
+String make_js_ws_obj(int);
 
 /*** Global variables and enum of websocket message types between server/client ***/
 extern long CurrADC;
