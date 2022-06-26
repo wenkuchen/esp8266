@@ -76,22 +76,29 @@ String make_js_ws_obj(int opcode){
     s += "}";
     return s;
 }
+
 void handleClientWebSocketMessage(uint8_t *data){  // message as char* cvs string
-String s = (char*) data; // data is enum of int and if  SET_REFKG
- 
-switch (s.toInt())
+
+String csv_str = (char*) data; // data is enum of int and if  SET_REFKG
+int opcode = csv_str.toInt();
+
+switch (opcode)
 {
 case SET_BASE /* constant-expression */:
     /* code */ 
     BaseADC = CurrADC; 
-    ws.textAll((char*)SET_BASE_OK);
+    ws.textAll(make_js_ws_obj(SET_BASE_OK).c_str());
+    break;
+case SET_REF /* constant-expression */:
+    /* code */ 
+    RefADC = CurrADC; 
+    ws.textAll(make_js_ws_obj(SET_REF_OK).c_str());
     break;
 case SET_REFKG /* constant-expression */:
     /* code */ 
-    RefKG = s.substring(s.indexOf(",")).toFloat(); 
-    ws.textAll((char*)SET_REF_OK);
+    RefKG = csv_str.substring(csv_str.indexOf(",")).toFloat(); 
+    ws.textAll(make_js_ws_obj(SET_REFKG_OK).c_str());
     break;
-
 default:
     break;
 }
