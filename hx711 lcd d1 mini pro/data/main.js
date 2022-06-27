@@ -1,11 +1,24 @@
 var gateway = `ws://${window.location.hostname}/ws`;
 var websocket;
 
+var CurrADC = document.querySelector("#CurrADC");
+var BaseADC = document.querySelector("#BaseADC");
+var RefADC = document.querySelector("#RefADC");
+var RefKG = document.querySelector("#CurrADC");
+
+var SetBase = document.querySelector("#SetBase");
+var SetRef = document.querySelector("#SetRef");
+var SetRefKG = document.querySelector("#SetRefKG");
+var InputKG = document.querySelector("#InputKG");
+
+var WeightInKg = document.querySelector("#WeightInKg");
+var WeightInLb = document.querySelector("#WeightInLb");
+
 window.addEventListener('load', onload);
 
 function onload(event) {
 initWebSocket();
-initButton();
+initButtons();
 }
 
 function initWebSocket() {
@@ -83,6 +96,11 @@ function onMessage(event) {
 handleWSmessage(event.data);
 }
 
+function initButtons() {
+    SetBase.addEventListener('click', (e)=> {websocket.send('something')});
+    SetRef.addEventListener('click', (e)=> {websocket.send('something')});
+    SetRefKG.addEventListener('click', (e)=> {websocket.send('something')});
+    }
 /**** ********************************************
 function initButton() {
 document.getElementById('bON').addEventListener('click', toggleON);

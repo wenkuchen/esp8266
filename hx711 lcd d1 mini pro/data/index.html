@@ -11,19 +11,19 @@
 data-ToClientWsTyppe="%ToClient_WStypes%">
     <h2>Hx711 LCD Server</h2>
     <div id="Scale">
-        <div id="CurrADC">Current 2Kg ADC: %CurrKgADC%</div>
-        <div id="RefKgADC">Current 2Kg ADC: %CurrKgADC%</div>
-        <button id="setRefKgADC">Set Ref Weight</button>
-        <button id="setRefKg">Set Ref KG</button>
-        <div id="setBaseADC">Current 2Kg ADC: %CurrKgADC%</div>
-        <button id="setBase">Set Empty ADC</button>
-        <div id="weightInKg">"000.2KG"</div>
-        <div id="weightInLb">"000.11LB"</div>
+        <div id="CurrADC">Current ADC: %CurrADC%</div>
+        <div id="BaseADC">Preset empty ADC: %BaseADC%</div>
+        <div id="RefADC">Preset Ref ADC: %RefKgADC%</div>
+        <div id="RefKg">Preset Ref KG: %RefKG% </div>
+        <br><br>
+        <button id="SetRef">Set Ref ADC</button>
+        <button id="SetBase">Set Empty ADC</button>
+        <br><br>
+        <button id="SetRefKG">Set Ref KG</button><input id="inputKG" type="text">
+        <br><br>
+        <div id="WeightInKg">"Weight:000.2KG"(CurrADC-BaseADC)/(RefADC-BaseADC)*RefKG</div>
+        <div id="WeightInLb">"Weight:000.11LB"</div>
      </div>
      
-     <div id="Weight">
-       Weight in KG: %77.6KG% </br>
-       Weight in LB: %165.32lb%
-     </div>
 </body> 
 </html>
