@@ -1,0 +1,4 @@
+*{padding: 0;margin: 0; box-sizing: border-box;}
+
+div { display: block;}
+#WeightInKg, #WeightInLb { font-size: 3rem; }
