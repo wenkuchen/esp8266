@@ -39,7 +39,7 @@ console.log('Connection closed');
 //setTimeout(initWebSocket, 2000);
 }
 
-function updateScaleDOMs(csv_array){
+function updateScaleDOMs(scale_obj){
     //typedef enum {CURR_ADC,BASE_ADC,REF_ADC,REF_KG} 
     //update_scale_WSenum;
     const RefKgADC = document.querySelector("#RefKgADC");
@@ -48,11 +48,16 @@ function updateScaleDOMs(csv_array){
     const w_kg = document.querySelector("#weightInKg");
     const w_lb = document.querySelector("#weightInLb");
     
-    let curr_ADC = parseInt(csv_array[1]); console.log(csv_array[1]);
-    let base_ADC = parseInt(csv_array[2]);
-    let ref_ADC = parseInt(csv_array[3]);
-    let ref_KG = parseFloat(csv_array[4]);
-    let WeightInKg = (curr_ADC-base_ADC)/ref_ADC*ref_KG;
+    let curr_ADC = parseInt(scale_obj.curr_adc);
+    if(!scale_obj.hasOwnProperty('curr_adc')) window.alert('bad obj key 1');
+    let base_ADC = parseInt(scale_obj.base_adc);
+    if(!scale_obj.hasOwnProperty('base_adc')) window.alert('bad obj key 2');
+    let ref_ADC = parseInt(scale_obj.ref_adc);
+    if(!scale_obj.hasOwnProperty('ref_adc')) window.alert('bad obj key 3');
+    let ref_KG = parseFloat(scale_obj.ref_kg);
+    if(!scale_obj.hasOwnProperty('ref_kg')) window.alert('bad obj key 4');
+
+    let WeightInKg = (curr_ADC-base_ADC)/(ref_ADC-base_ADC)*ref_KG;
     let WeightInLb = WeightInKg*2.205;
 
     RefKgADC.innerHTML = "Reference ADC: " + ref_ADC;
@@ -63,6 +68,44 @@ function updateScaleDOMs(csv_array){
 
 }
 
+function handleWSmessage(ws_obj_str){ // object string from server websocket data
+    console.log(ws_obj_str);
+    let ws_obj = JSON.parse(ws_obj_str);
+    let op = ws_obj.op_code.parseInt();
+    let ws_array =document.body.dataset.ToClient_WStypes.split(',');
+
+    // let op = document.body.dataset.ToClient_WStypes[csv_msg_array[0]];
+    // websocket op code stored in the first item of the cvs message
+
+    switch(ws_array[op]) {
+        case "ON_CHG":  // var f = parseInt("2string"); f->2
+            // parseFloat("10.33") + "<br>" +
+            // update weight display here
+            updateScaleDOMs(ws_obj);
+            break;
+        case "SET_REF_OK":
+            window.alert("SET_REF_OK");
+            updateScaleDOMs(ws_obj)
+            break;
+        case "SET_BASE_OK":
+            window.alert("SET_BASE_OK");
+            break;
+        case "SET_REFKG_OK":
+            window.alert("SET_REFKG_OK");
+            break;
+        default:
+            break;
+    }
+
+}
+
+function onMessage(event) {
+//document.getElementById('state').innerHTML = event.data;
+//console.log(event.data);
+handleWSmessage(event.data);
+}
+
+/*
 function handleWSmessage(ws_csv){
     console.log(ws_csv);
     let csv_msg_array = ws_csv.split(",");
@@ -95,6 +138,7 @@ function onMessage(event) {
 //console.log(event.data);
 handleWSmessage(event.data);
 }
+*/
 
 function initButtons() {
     SetBase.addEventListener('click', (e)=> {websocket.send('something')});
