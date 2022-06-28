@@ -144,9 +144,7 @@ function initButtons() {
     SetBase.addEventListener('click', 
         (e)=> {websocket.send('1')});
     SetRefKG.addEventListener('click', 
-        (e)=> {
-            RefKG = InputKG.value;
-            websocket.send('2,'+RefKG)});
+        (e)=> {websocket.send('2,'+InputKG.value)});
 }
 /**** ********************************************
 function initButton() {
