@@ -95,7 +95,8 @@ void handleClientWebSocketMessage(uint8_t *data){
         ws.textAll(make_js_ws_obj(SET_REF_OK).c_str());
         break;
     case SET_REFKG: 
-        RefKG = csv_str.substring(csv_str.indexOf(",")).toFloat(); 
+        //RefKG = csv_str.substring(csv_str.indexOf(",")).toFloat();
+        RefKG = csv_str.substring(csv_str.indexOf(",")+1).toFloat(); 
         ws.textAll(make_js_ws_obj(SET_REFKG_OK).c_str());
         break;
     default:
