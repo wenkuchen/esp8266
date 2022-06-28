@@ -1,77 +1,76 @@
 var gateway = `ws://${window.location.hostname}/ws`;
 var websocket;
 
-var CurrADC = document.querySelector("#CurrADC");
-var BaseADC = document.querySelector("#BaseADC");
-var RefADC = document.querySelector("#RefADC");
-var RefKG = document.querySelector("#CurrADC");
+var dCurrADC = document.querySelector("#CurrADC");
+var dBaseADC = document.querySelector("#BaseADC");
+var dRefADC = document.querySelector("#RefADC");
+var dRefKG = document.querySelector("#CurrADC");
 
-var SetBase = document.querySelector("#SetBase");
-var SetRef = document.querySelector("#SetRef");
-var SetRefKG = document.querySelector("#SetRefKG");
-var InputKG = document.querySelector("#InputKG");
+var dSetBase = document.querySelector("#SetBase");
+var dSetRef = document.querySelector("#SetRef");
+var dSetRefKG = document.querySelector("#SetRefKG");
+var dInputKG = document.querySelector("#InputKG");
 
-var WeightInKg = document.querySelector("#WeightInKg");
-var WeightInLb = document.querySelector("#WeightInLb");
+var dWeightInKg = document.querySelector("#WeightInKg");
+var dWeightInLb = document.querySelector("#WeightInLb");
 
 window.addEventListener('load', onload);
 
 function onload(event) {
-initWebSocket();
-initButtons();
+    initWebSocket();
+    initButtons();
 }
 
 function initWebSocket() {
-console.log('Trying to open a WebSocket connection…');
-websocket = new WebSocket(gateway);
-websocket.onopen = onOpen;
-websocket.onclose = onClose;
-websocket.onmessage = onMessage;
+    console.log('Trying to open a WebSocket connection…');
+    websocket = new WebSocket(gateway);
+    websocket.onopen = onOpen;
+    websocket.onclose = onClose;
+    websocket.onmessage = onMessage;
 }
 
 function onOpen(event) {
-console.log('Connection opened');
+    console.log('Connection opened');
 }
 
 function onMessage(event) {
 //document.getElementById('state').innerHTML = event.data;
 //console.log(event.data);
-handleWSmessage(event.data);
+    handleWSmessage(event.data);
 }
+
 function onClose(event) {
-console.log('Connection closed');
-//console.log(updateScaleDOMs([2,3,4,5,6]))
-//setTimeout(initWebSocket, 2000);
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
 }
 
 function updateScaleDOMs(scale_obj){
     //typedef enum {CURR_ADC,BASE_ADC,REF_ADC,REF_KG} 
     //update_scale_WSenum;
- 
-    CurrADC = parseInt(scale_obj.curr_adc);
+    let curr_adc = parseInt(scale_obj.curr_adc);
+    let base_adc = parseInt(scale_obj.base_adc);
+    let ref_adc = parseInt(scale_obj.ref_adc);
+    let ref_kg = parseFloat(scale_obj.ref_kg);
+
+    dCurrADC.innerHTML = "Current ADC:" + scale_obj.curr_adc;
     if(!scale_obj.hasOwnProperty('curr_adc')) window.alert('bad obj key 1');
-    BaseADC = parseInt(scale_obj.base_adc);
+    dBaseADC.innerHTML = "Base ADC: " + scale_obj.base_adc;
     if(!scale_obj.hasOwnProperty('base_adc')) window.alert('bad obj key 2');
-    RefADC = parseInt(scale_obj.ref_adc);
+    dRefADC.innerHTML = "Ref ADC: " + scale_obj.ref_adc;
     if(!scale_obj.hasOwnProperty('ref_adc')) window.alert('bad obj key 3');
-    RefKG = parseFloat(scale_obj.ref_kg);
+    dRefKG.innerHTML = "Ref KG: "+ scale_obj.ref_kg + "KG";
     if(!scale_obj.hasOwnProperty('ref_kg')) window.alert('bad obj key 4');
 
-    WeightInKg = (CurrADC-BaseADC)/(RefADC-BaseADC)*RefKG;
-    WeightInLb = WeightInKg*2.205;
-
-    RefKgADC.innerHTML = "Reference ADC: " + RefADC;
-    SetKgADC.innerHTML = "Set KG ADC: " + RefKG;
-    CurrKgADC.innerHTML = "Current ADC: " + CurrADC;
-    WeightInKg.innerHTML = "Weight in KG: " + WeightInKg;
-    WeightInLb.innerHTML = "Weight in LB: " + WeightInLb;
-
+    dWeightInKg.innerHTML = 
+        "Weight in KG: " + ((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg);
+    dWeightInLb.innerHTML = 
+        "Weight in LB: " + ((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg*2.205);
 }
 
 function handleWSmessage(ws_obj_str){ // object string from server websocket data
     console.log(ws_obj_str);
-    let ws_obj = JSON.parse(ws_obj_str); // make it an object
-    let op = ws_obj.op_code.parseInt(); // read the int opcode
+    let ws_obj = JSON.parse(ws_obj_str); // make it js object
+    let op = ws_obj.op_code.parseInt(); // read the int op_code
     let ws_array =document.body.dataset.ToClient_WStypes.split(',');
     // make array from csv document.body.dataset.ToClient_WStypes ;
  
@@ -86,9 +85,11 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
             break;
         case "SET_BASE_OK":
             window.alert("SET_BASE_OK");
+            updateScaleDOMs(ws_obj);
             break;
         case "SET_REFKG_OK":
             window.alert("SET_REFKG_OK");
+            updateScaleDOMs(ws_obj);
             break;
         default:
             window.alert("invalid opcode: "+ ws_array[op]);
@@ -96,8 +97,6 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
     }
 
 }
-
-
 
 /*
 function handleWSmessage(ws_csv){
@@ -135,26 +134,14 @@ handleWSmessage(event.data);
 */
 
 function initButtons() {
-    /*
+/*
     typedef enum {SET_REF, SET_BASE, SET_REFKG, SET_UXTIME
 } toServer_WStypes_enum;
-    */
+*/
     SetRefKG.addEventListener('click', 
-        (e)=> {websocket.send('0')});
+        (e)=> {websocket.send('0')}); // SET_REF
     SetBase.addEventListener('click', 
-        (e)=> {websocket.send('1')});
+        (e)=> {websocket.send('1')}); // SET_BASE
     SetRefKG.addEventListener('click', 
-        (e)=> {websocket.send('2,'+InputKG.value)});
+        (e)=> {websocket.send('2,'+InputKG.value)}); // SET_REFKG
 }
-/**** ********************************************
-function initButton() {
-document.getElementById('bON').addEventListener('click', toggleON);
-document.getElementById('bOFF').addEventListener('click', toggleOFF);
-}
-function toggleON(event) {
-websocket.send('bON');
-}
-function toggleOFF(event) {
-websocket.send('bOFF');
-}
-*************************************/
