@@ -5,8 +5,8 @@
 #include "HX711.h" 
 
 // HX711 circuit wiring
-const int LOADCELL_DOUT_PIN = 2;
-const int LOADCELL_SCK_PIN = 3;
+const int LOADCELL_DOUT_PIN = D5;
+const int LOADCELL_SCK_PIN = D6;
 
 HX711 scale; // init HX711 scale
 
@@ -22,50 +22,57 @@ void LcdMsgLine(int col, int row, String msg){
 
 int read_count = 0;
 const int read_count_max = 20;
+char temp[80];
 
 scaleStateEnum scaleState = ACTIVE;
 
-void scaleFSM(scaleStateEnum state)
+void scaleFSM()
 {
     //String s = (char*) Update_Scale_WS;
     //ToClient_WStypes[ON_CHG]
     
     String s = make_js_ws_obj(ON_CHG);
 
-    switch (state)
+    switch (scaleState)
     {
     case ACTIVE:
-        lcd.on();
-        while (1)
+        //lcd.on();
+        while (read_count < read_count_max)
         {
             delay(200);
-            lcd.printf("CurrADC:%ld", CurrADC);
+            //lcd.printf("CurrADC:%ld", CurrADC);
    
             notifyWSclients(s.c_str()); // update client browser scale
-            Serial.println(s.c_str());
-            if (read_count > read_count_max)
-                break;
+            Serial.print("ACTIVE STATE: "); 
+            Serial.println(s.c_str()); 
+            sprintf(temp, "CurrADC: %ld %d", CurrADC, read_count++);
+            Serial.println(temp); delay(500);
+
             LastADC=CurrADC;
             CurrADC = scale.read_average(10);
+            s = make_js_ws_obj(ON_CHG);
             if (abs(LastADC - CurrADC) > (.05 * abs(LastADC)))
                 read_count = 0;
         }
-        state = IDLE;
+        scaleState = IDLE;
         break;
     case IDLE:
         lcd.off();
-        while (1)
+        read_count = 20;
+
+        while (read_count != 0)
         {
             delay(200);
+        
+            sprintf(temp, "CurrADC IDLE: %ld %d", CurrADC, read_count++);
+            Serial.println(temp); delay(500);
+
             LastADC = CurrADC;
             CurrADC = scale.read_average(10);
-            if (read_count > read_count_max)
-                break;
-            CurrADC = scale.read_average(10);
             if (abs(LastADC - CurrADC) > (.05 * abs(LastADC)))
-                break;
+                read_count=0;
         }
-        state = ACTIVE;
+        scaleState = ACTIVE;
         break;
     }
 }
@@ -84,5 +91,5 @@ void setup() {
 
 void loop() {
 	delay(50);
-	scaleFSM(scaleState);
+	scaleFSM();
 }

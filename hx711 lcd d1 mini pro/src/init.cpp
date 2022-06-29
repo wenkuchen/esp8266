@@ -3,7 +3,7 @@
 #include "config.h"
 #include "init.h"
 
-long CurrADC = 0;
+long CurrADC = 20000;
 long BaseADC = 0;
 long RefADC = 0;
 long LastADC;
