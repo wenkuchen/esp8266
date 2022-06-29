@@ -22,7 +22,7 @@ function onload(event) {
 }
 
 function initWebSocket() {
-    console.log('Trying to open a WebSocket connection…');
+    console.log('Trying to open a WebSocket connection…ddd');
     websocket = new WebSocket(gateway);
     websocket.onopen = onOpen;
     websocket.onclose = onClose;
@@ -30,7 +30,11 @@ function initWebSocket() {
 }
 
 function onOpen(event) {
-    console.log('Connection opened');
+    console.log('Connection opened!');
+    let el=document.getElementsByTagName("body"); 
+    console.log(el);
+    let ws_array = el.dataset.ToServerWStypes.split(',');
+    console.log(ws_array);
 }
 
 function onMessage(event) {
@@ -71,7 +75,8 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
     console.log(ws_obj_str);
     let ws_obj = JSON.parse(ws_obj_str); // make it js object
     let op = ws_obj.op_code.parseInt(); // read the int op_code
-    let ws_array =document.body.dataset.ToClient_WStypes.split(',');
+    let ws_array =document.body.dataset.ToClientWStypes.split(',');
+    console.log(ws_array);
     // make array from csv document.body.dataset.ToClient_WStypes ;
  
     switch(ws_array[op]) {
