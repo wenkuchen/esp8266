@@ -31,16 +31,15 @@ function initWebSocket() {
 
 function onOpen(event) {
     console.log('Connection opened!');
-    let el=document.getElementsByTagName("body"); 
-    console.log(el);
-    let ws_array = el.dataset.ToServerWStypes.split(',');
-    console.log(ws_array);
+    //let ws_array = document.body.dataset.ToServerWStypes.split(/[ ,]+/);
+    //console.log(ws_array);
 }
 
 function onMessage(event) {
 //document.getElementById('state').innerHTML = event.data;
 //console.log(event.data);
     handleWSmessage(event.data);
+    console.log("event data: "+event.data);
 }
 
 function onClose(event) {
@@ -74,8 +73,10 @@ function updateScaleDOMs(scale_obj){
 function handleWSmessage(ws_obj_str){ // object string from server websocket data
     console.log(ws_obj_str);
     let ws_obj = JSON.parse(ws_obj_str); // make it js object
-    let op = ws_obj.op_code.parseInt(); // read the int op_code
-    let ws_array =document.body.dataset.ToClientWStypes.split(',');
+    let op = parseInt(ws_obj.op_code); // read the int op_code
+    let ws_array = document.body.dataset.ToServerWStypes.split(/[ ,]+/);
+    //ToClientWStypes.split(/[ ,]+/);
+    //input.split(/[ ,]+/);
     console.log(ws_array);
     // make array from csv document.body.dataset.ToClient_WStypes ;
  
@@ -103,50 +104,15 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
 
 }
 
-/*
-function handleWSmessage(ws_csv){
-    console.log(ws_csv);
-    let csv_msg_array = ws_csv.split(",");
-    let op = document.body.dataset.ToClient_WStypes[csv_msg_array[0]];
-    // websocket op code stored in the first item of the cvs message
-
-    switch(op) {
-        case "ON_CHG":  // var f = parseInt("2string"); f->2
-            // parseFloat("10.33") + "<br>" +
-            // update weight display here
-            updateScaleDOMs(csv_msg_array);
-            break;
-        case "SET_REF_OK":
-            window.alert("SET_REF_OK");
-            break;
-        case "SET_BASE_OK":
-            window.alert("SET_BASE_OK");
-            break;
-        case "SET_REFKG_OK":
-            window.alert("SET_REFKG_OK");
-            break;
-        default:
-            break;
-    }
-
-}
-
-function onMessage(event) {
-//document.getElementById('state').innerHTML = event.data;
-//console.log(event.data);
-handleWSmessage(event.data);
-}
-*/
-
 function initButtons() {
 /*
     typedef enum {SET_REF, SET_BASE, SET_REFKG, SET_UXTIME
 } toServer_WStypes_enum;
 */
-    SetRefKG.addEventListener('click', 
-        (e)=> {websocket.send('0')}); // SET_REF
-    SetBase.addEventListener('click', 
-        (e)=> {websocket.send('1')}); // SET_BASE
-    SetRefKG.addEventListener('click', 
-        (e)=> {websocket.send('2,'+InputKG.value)}); // SET_REFKG
+    document.querySelector("#SetRef").addEventListener('click', 
+        function() {websocket.send('0');}); // SET_REF
+    document.querySelector("#SetBase").addEventListener('click', 
+        function() {websocket.send('1');}); // SET_BASE
+    document.querySelector("#SetRefKG").addEventListener('click', 
+        function() {websocket.send('2,'+dInputKG.value);}); // SET_REFKG
 }
