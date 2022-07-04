@@ -30,7 +30,8 @@ function initWebSocket() {
 }
 
 function onOpen(event) {
-    console.log('Connection opened!');
+    console.log('Connection opened 1!');
+    console.log(event);
     //let ws_array = document.body.dataset.ToServerWStypes.split(/[ ,]+/);
     //console.log(ws_array);
 }
@@ -38,8 +39,12 @@ function onOpen(event) {
 function onMessage(event) {
 //document.getElementById('state').innerHTML = event.data;
 //console.log(event.data);
+    
+    console.log("event data: ");
+    console.log(event.data);
+    console.log(typeof(event.data));
+
     handleWSmessage(event.data);
-    console.log("event data: "+event.data);
 }
 
 function onClose(event) {
@@ -74,7 +79,7 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
     console.log(ws_obj_str);
     let ws_obj = JSON.parse(ws_obj_str); // make it js object
     let op = parseInt(ws_obj.op_code); // read the int op_code
-    let ws_array = document.body.dataset.ToServerWStypes.split(/[ ,]+/);
+    let ws_array = document.body.dataset.toServerwstypes.split(","); // lower case dataset!
     //ToClientWStypes.split(/[ ,]+/);
     //input.split(/[ ,]+/);
     console.log(ws_array);
