@@ -43,8 +43,8 @@ AsyncWebServer server(80); //default http webserver port at 80
 AsyncWebSocket ws("/ws"); // Create a websocket object
 
 String processor (const String &var) {
-    if (var=="ToServerWStypes") {return ToServer_WStypes; }
-    else if (var=="ToClientWStypes") {return ToClient_WStypes;}
+    if (var=="toserverwstypes") {return ToServer_WStypes; }
+    else if (var=="toclientwstypes") {return ToClient_WStypes;}
     else return "";
 }
 

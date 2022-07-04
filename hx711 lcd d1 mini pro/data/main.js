@@ -79,7 +79,7 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
     console.log(ws_obj_str);
     let ws_obj = JSON.parse(ws_obj_str); // make it js object
     let op = parseInt(ws_obj.op_code); // read the int op_code
-    let ws_array = document.body.dataset.toServerwstypes.split(","); // lower case dataset!
+    let ws_array = document.body.dataset.toserverwstypes.split(","); // lower case dataset!
     //ToClientWStypes.split(/[ ,]+/);
     //input.split(/[ ,]+/);
     console.log(ws_array);
