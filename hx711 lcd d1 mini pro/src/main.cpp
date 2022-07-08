@@ -37,6 +37,7 @@ void scaleFSM()
     {
     case ACTIVE:
         //lcd.on();
+        lcd.backlight();
         while (read_count < read_count_max)
         {
             delay(200);
@@ -57,7 +58,8 @@ void scaleFSM()
         scaleState = IDLE;
         break;
     case IDLE:
-        lcd.off();
+        //lcd.off();
+        lcd.noBacklight();
         read_count = 20;
 
         while (read_count != 0)

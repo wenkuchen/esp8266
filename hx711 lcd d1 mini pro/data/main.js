@@ -1,18 +1,19 @@
 var gateway = `ws://${window.location.hostname}/ws`;
 var websocket;
 
-var dCurrADC = document.querySelector("#CurrADC");
-var dBaseADC = document.querySelector("#BaseADC");
-var dRefADC = document.querySelector("#RefADC");
-var dRefKG = document.querySelector("#CurrADC");
+var dCurrADC = document.getElementById("CurrADC")
 
-var dSetBase = document.querySelector("#SetBase");
-var dSetRef = document.querySelector("#SetRef");
-var dSetRefKG = document.querySelector("#SetRefKG");
-var dInputKG = document.querySelector("#InputKG");
+var dBaseADC = document.getElementById("#BaseADC");
+var dRefADC = document.getElementById("#RefADC");
+var dRefKG = document.getElementById("#CurrADC");
 
-var dWeightInKg = document.querySelector("#WeightInKg");
-var dWeightInLb = document.querySelector("#WeightInLb");
+var dSetBase = document.getElementById("#SetBase");
+var dSetRef = document.getElementById("#SetRef");
+var dSetRefKG = document.getElementById("#SetRefKG");
+var dInputKG = document.getElementById("#InputKG");
+
+var dWeightInKg = document.getElementById("#WeightInKg");
+var dWeightInLb = document.getElementById("#WeightInLb");
 
 window.addEventListener('load', onload);
 
@@ -60,18 +61,25 @@ function updateScaleDOMs(scale_obj){
     let ref_adc = parseInt(scale_obj.ref_adc);
     let ref_kg = parseFloat(scale_obj.ref_kg);
 
-    dCurrADC.innerHTML = "Current ADC:" + scale_obj.curr_adc;
+    console.log(typeof scale_obj.curr_adc); // number
+    console.log(scale_obj.curr_adc);
+    console.log(dCurrADC);
+    //dCurrADC.innerHTML = "Current ADC:" + curr_adc;
+    document.getElementById("CurrADC").innerHTML = "Current ADC:" + curr_adc;
     if(!scale_obj.hasOwnProperty('curr_adc')) window.alert('bad obj key 1');
-    dBaseADC.innerHTML = "Base ADC: " + scale_obj.base_adc;
+    //dBaseADC.innerHTML = "Base ADC: " + base_adc;
+    document.getElementById("BaseADC").innerHTML = "Base ADC: " + base_adc;
     if(!scale_obj.hasOwnProperty('base_adc')) window.alert('bad obj key 2');
-    dRefADC.innerHTML = "Ref ADC: " + scale_obj.ref_adc;
+    //dRefADC.innerHTML = "Ref ADC: " + ref_adc;
+    document.getElementById("RefADC").innerHTML = "Ref ADC: " + ref_adc;
     if(!scale_obj.hasOwnProperty('ref_adc')) window.alert('bad obj key 3');
-    dRefKG.innerHTML = "Ref KG: "+ scale_obj.ref_kg + "KG";
+    //dRefKG.innerHTML = "Ref KG: "+ ref_kg + "KG";
+    document.getElementById("RefKg").innerHTML = "Ref KG: "+ ref_kg + "KG";
     if(!scale_obj.hasOwnProperty('ref_kg')) window.alert('bad obj key 4');
 
-    dWeightInKg.innerHTML = 
+    document.getElementById("WeightInKg").innerHTML =
         "Weight in KG: " + ((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg);
-    dWeightInLb.innerHTML = 
+    document.getElementById("WeightInLb").innerHTML =
         "Weight in LB: " + ((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg*2.205);
 }
 
@@ -79,7 +87,7 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
     console.log(ws_obj_str);
     let ws_obj = JSON.parse(ws_obj_str); // make it js object
     let op = parseInt(ws_obj.op_code); // read the int op_code
-    let ws_array = document.body.dataset.toserverwstypes.split(","); // lower case dataset!
+    let ws_array = document.body.dataset.toclientwstypes.split(","); // lower case dataset!
     //ToClientWStypes.split(/[ ,]+/);
     //input.split(/[ ,]+/);
     console.log(ws_array);
@@ -104,6 +112,7 @@ function handleWSmessage(ws_obj_str){ // object string from server websocket dat
             break;
         default:
             window.alert("invalid opcode: "+ ws_array[op]);
+            console.log(ws_array[op]);
             break;
     }
 
@@ -114,10 +123,10 @@ function initButtons() {
     typedef enum {SET_REF, SET_BASE, SET_REFKG, SET_UXTIME
 } toServer_WStypes_enum;
 */
-    document.querySelector("#SetRef").addEventListener('click', 
+    document.getElementById("SetRef").addEventListener('click', 
         function() {websocket.send('0');}); // SET_REF
-    document.querySelector("#SetBase").addEventListener('click', 
+    document.getElementById("SetBase").addEventListener('click', 
         function() {websocket.send('1');}); // SET_BASE
-    document.querySelector("#SetRefKG").addEventListener('click', 
-        function() {websocket.send('2,'+dInputKG.value);}); // SET_REFKG
+    document.getElementById("SetRefKg").addEventListener('click', 
+        function() {websocket.send('2,'+document.getElementById("InputKg").value);}); // SET_REFKG
 }
