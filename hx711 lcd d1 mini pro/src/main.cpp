@@ -32,6 +32,7 @@ void scaleFSM()
     //ToClient_WStypes[ON_CHG]
     
     String s = make_js_ws_obj(ON_CHG);
+    String lcdMsg;
 
     switch (scaleState)
     {
@@ -44,6 +45,9 @@ void scaleFSM()
             //lcd.printf("CurrADC:%ld", CurrADC);
    
             notifyWSclients(s.c_str()); // update client browser scale
+            lcdMsg = ""; lcdMsg += String((CurrADC-BaseADC)/(RefADC-BaseADC)*RefKG,2);
+            lcdMsg += " KG";
+            LcdMsgLine(1,1,lcdMsg);
             Serial.print("ACTIVE STATE: "); 
             Serial.println(s.c_str()); 
             sprintf(temp, "CurrADC: %ld %d", CurrADC, read_count++);
@@ -83,6 +87,9 @@ void setup() {
 	Serial.begin(115200);
 	esp8266_init();
 	delay(20);
+
+    BaseADC=38750; // init
+    RefADC = 81750; // init
 	
 	lcd.init(); // initialize the lcd 
 	lcd.backlight();lcd.clear();
