@@ -14,23 +14,28 @@
 #ifdef ESP32
 #include <WiFi.h>
 #include <AsyncTCP.h>
+#include <ESPmDNS.h>
 #include <ESPAsyncWebServer.h>
 #include "SPIFFS.h"
 #elif defined(ESP8266)
 #include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <LittleFS.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
+#include <ArduinoJson.h>
 #endif
-
-#include <ESPAsyncWebServer.h>
 
 #define DEF_SSID "WKC"
 #define DEF_PASSWORD "23752755"
 
-#define SERVER_HOST_NAME "esp_server"
+#define SERVER_HOST_NAME "scale_server"
 
 #define TCP_PORT 7050
 #define DNS_PORT 53
 
 #endif // CONFIG_H
+
+
