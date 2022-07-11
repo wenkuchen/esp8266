@@ -31,9 +31,9 @@
 #define DEF_SSID "WKC"
 #define DEF_PASSWORD "23752755"
 
-#define SERVER_HOST_NAME "scale_server"
+#define SERVER_HOST_NAME "timer_server"
 
-#define TCP_PORT 7050
+#define TCP_PORT 7051
 #define DNS_PORT 53
 
 #endif // CONFIG_H
