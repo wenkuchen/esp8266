@@ -25,6 +25,7 @@ const int read_count_max = 20;
 char temp[80];
 
 scaleStateEnum scaleState = ACTIVE;
+String lcdMsg;
 
 void scaleFSM()
 {
@@ -32,7 +33,6 @@ void scaleFSM()
     //ToClient_WStypes[ON_CHG]
     
     String s = make_js_ws_obj(ON_CHG);
-    String lcdMsg;
 
     switch (scaleState)
     {

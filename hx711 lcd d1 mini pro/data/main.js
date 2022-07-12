@@ -78,9 +78,9 @@ function updateScaleDOMs(scale_obj){
     if(!scale_obj.hasOwnProperty('ref_kg')) window.alert('bad obj key 4');
 
     document.getElementById("WeightInKg").innerHTML =
-        "Weight in KG: " + (((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg).toFixed(2));
+        (((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg).toFixed(2))+"Kg";
     document.getElementById("WeightInLb").innerHTML =
-        "Weight in LB: " + (((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg*2.205).toFixed(2));
+        (((curr_adc-base_adc)/(ref_adc-base_adc)*ref_kg*2.205).toFixed(2))+"Lb";
 }
 
 function handleWSmessage(ws_obj_str){ // object string from server websocket data

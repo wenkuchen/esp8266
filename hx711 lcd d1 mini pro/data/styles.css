@@ -1,4 +1,6 @@
 *{padding: 0;margin: 0; box-sizing: border-box;}
 
-#WeightInKg, #WeightInLb { 
-    font-size: 3rem; }
+body {padding-left: 10%;}
+
+#WeightInKg { 
+    font-size: 5rem; }
