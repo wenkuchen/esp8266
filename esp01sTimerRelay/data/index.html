@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HX711 LCD</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="main.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP01S TimerRelay 2</title>
 </head>
-<body data-ToServerWsTypes="%toserverwstypes%" 
-data-ToClientWsTypes="%toclientwstypes%">
-    <h2>Hx711 LCD Server</h2>
-    <div id="Scale">
-        <div id="CurrADC">Current ADC:</div>
-        <div id="BaseADC">Preset empty ADC: </div>
-        <div id="RefADC">Preset Ref ADC: </div>
-        <div id="RefKg">Preset Ref KG: </div>
-        <br><br>
-        <button id="SetRef">Set Ref ADC</button>
-        <button id="SetBase">Set Empty ADC</button>
-        <br><br>
-        <button id="SetRefKg">Set Ref KG</button>
-        <input id="InputKg" value="2.0" type="text">
-        <br><br>
-        <div id="WeightInKg">"Weight:000.2KG"(CurrADC-BaseADC)/(RefADC-BaseADC)*RefKG</div>
-        <div id="WeightInLb">"Weight:000.11LB"</div>
-     </div>
-     
-</body> 
+
+<body>
+  
+  <div class="tabs">
+    <input id="tab1" type="radio" name="tabs" checked="checked" label="tab1">
+    <label for="tab1">WORKDAY</label>
+    <div class="tab_content">
+      <h2>WORKDAY Timer Schedule</h2>
+      <div id="archWorkday" class="archSVG"></div>
+      <button id="btn1">Confirm Setting</button>
+    </div>
+    <input id="tab2" type="radio" name="tabs" >
+    <label for="tab2">WEEKLY</label>
+    <div class="tab_content">
+      <h2>WEEKLY Timer Schedule</h2>
+      <div id="archDatByDay" class="archSVG"></div>
+      <button id="btn2">Confirm Setting</button>
+    </div>    
+    <input id="tab3" type="radio" name="tabs">
+    <label for="tab3">DAILY</label>
+    <div class="tab_content">
+      <h2>DAILY Timer Schedule</h2>
+      <div id="archEveryday" class="archSVG"></div>
+      <button id="btn3">Confirm Setting</button>
+    </div>
+  </div>
+ 
+</body>
+
 </html>

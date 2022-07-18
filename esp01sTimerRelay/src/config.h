@@ -1,5 +1,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
+
 /*
  * This example demonstrate how to use asynchronous client & server APIs
  * in order to establish tcp socket connections in client server manner.
@@ -37,5 +38,3 @@
 #define DNS_PORT 53
 
 #endif // CONFIG_H
-
-

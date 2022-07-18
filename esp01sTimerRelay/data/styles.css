@@ -1,4 +1,45 @@
 *{padding: 0;margin: 0; box-sizing: border-box;}
 
-#WeightInKg, #WeightInLb { 
-    font-size: 3rem; }
+body{background:#aaa;}
+
+div.archSVG, button {margin:30px 40px; padding: 20px;}
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+  min-width: 680px;
+    margin: 10px auto;
+    padding: 25px;
+}
+
+.tabs input[type="radio"] {
+    display: none;
+}
+.tabs label {
+    margin-right: 20px;
+    padding: 5px 20px;
+  font-size: 1rem;
+    background: #e2e2e2;
+    font-weight: bold;
+    border-top-left-radius: 15% 50%;
+    border-top-right-radius: 10% 15%;
+}
+
+.tabs .tab_content {
+    width: 80%;
+    padding: 20px;
+    background: #fff;
+    order: 1;
+    display: none;
+}
+.tabs .tab_content h2 {
+    font-size: 1.5rem;
+}
+
+.tabs input[type='radio']:checked + label + .tab_content {
+    display: block;
+}
+
+.tabs input[type="radio"]:checked + label {
+    background: #fff;
+}
