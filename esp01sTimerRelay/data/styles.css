@@ -1,5 +1,4 @@
-*{padding: 0;margin: 0; box-sizing: border-box;}
-
+*{padding:0;margin:0;box-sizing: border-box;}
 body{background:#aaa;}
 
 div.archSVG, button {margin:30px 40px; padding: 20px;}

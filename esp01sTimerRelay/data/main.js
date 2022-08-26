@@ -1,15 +1,26 @@
-let btn1 = document.querySelector("#btn1");
-let container = document.querySelector("#archWorkday");
-console.log(container);
-btn1.addEventListener("click", () => (container.style.color = "green"));
+var gateway = `ws://${window.location.hostname}/ws`;
+var websocket;
 
-let hourMarkers = "0,6,9,12,14,18,21,24";
+window.addEventListener('load', (e)=>initWebSocket());
+document.addEventListener("DOMContentLoaded", () => {  
+//wait till all dom's loaded or querySelector will result null
+  btn1 = document.body.querySelector("#btn1");
+  btn1.addEventListener("click", () => (container.style.border = "solid"));
+  container = document.body.querySelector("#archWorkday");
+
+  appendSVGwPath(container, "svgArch", "pathArch", markerArray);
+  console.log(container);
+});
+
+/** Timer operation variables ****************/
+let btn1, container;
+const hourMarkers = "0,6,9,12,14,18,21,24";
+console.log(hourMarkers);
 const markerArray = hourMarkers.split(",").map((x) => parseInt(x, 10));
-
 console.log(markerArray);
+//for(i=0;i<24;i++) makeCheckbox(i%24+1);
 
-appendSVGwPath(container, "svgArch", "pathArch", markerArray);
-console.log(container);
+/***** function definitions ******************************/
 
 function appendSVGwPath(node, svgClass, pathClass, timerArchArray) {
   const dSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -45,4 +56,87 @@ function appendSVGwPath(node, svgClass, pathClass, timerArchArray) {
   dSvg.appendChild(dPath);
 
   return node.appendChild(dSvg);
+}
+function makeCheckbox(i){
+      var boxes = document.getElementById("boxes");
+      var box = document.createElement('div');
+      box.classList.add("box");
+           var checkbox = document.createElement('input');
+           checkbox.type = "checkbox";
+           //checkbox.name = "chkbox1";
+           checkbox.id = "cbid"+i;
+           box.appendChild(checkbox);
+           var label = document.createElement('label');
+           var tn = document.createTextNode(i);
+           label.htmlFor="cbid";
+           label.appendChild(tn); 
+           box.appendChild(label);
+      boxes.appendChild(box);
+    }
+  
+/*** wesocket functions  *********************/    
+function initWebSocket() {
+  console.log('Trying to open a WebSocket connection…');
+  websocket = new WebSocket(gateway);
+  websocket.onopen = onOpen;
+  websocket.onclose = onClose;
+  websocket.onmessage = onMessage;
+}
+  
+function onOpen(event) {
+      console.log('Websocket Connection opened!');
+      console.log(event);
+      //let ws_array = document.body.dataset.ToServerWStypes.split(/[ ,]+/);
+      //console.log(ws_array);
+  }
+  
+function onMessage(event) {
+  //document.getElementById('state').innerHTML = event.data;
+  //console.log(event.data);
+      
+      console.log("event data: ");
+      console.log(event.data);
+      console.log(typeof(event.data));
+  
+      handleWSmessage(event.data);
+  }
+  
+function onClose(event) {
+      console.log('Connection closed');
+      setTimeout(initWebSocket, 2000);
+  }
+  
+  function handleWSmessage(ws_obj_str){ // object string from server websocket data
+    console.log(ws_obj_str);
+    //let ws_obj = JSON.parse(ws_obj_str); // make it js object
+    //let op = parseInt(ws_obj.op_code); // read the int op_code
+    let ws_array = document.body.dataset.toclientwstypes.split(","); // lower case dataset!
+    //ToClientWStypes.split(/[ ,]+/);
+    //input.split(/[ ,]+/);
+    console.log(ws_array);
+    // make array from csv document.body.dataset.ToClient_WStypes ;
+ 
+    switch(ws_array[op]) {
+        case "ON_CHG":  
+            // update weight display here without alert
+            updateScaleDOMs(ws_obj);
+            break;
+        case "SET_REF_OK":
+            window.alert("SET_REF_OK");
+            updateScaleDOMs(ws_obj);
+            break;
+        case "SET_BASE_OK":
+            window.alert("SET_BASE_OK");
+            updateScaleDOMs(ws_obj);
+            break;
+        case "SET_REFKG_OK":
+            window.alert("SET_REFKG_OK");
+            updateScaleDOMs(ws_obj);
+            break;
+        default:
+            window.alert("invalid opcode: "+ ws_array[op]);
+            console.log(ws_array[op]);
+            break;
+    }
+
 }
