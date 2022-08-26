@@ -1,9 +1,9 @@
 var gateway = `ws://${window.location.hostname}/ws`;
 var websocket;
 
-window.addEventListener('load', (e)=>initWebSocket());
-document.addEventListener("DOMContentLoaded", () => {  
-//wait till all dom's loaded or querySelector will result null
+window.addEventListener('load', (e) => initWebSocket());
+document.addEventListener("DOMContentLoaded", () => {
+  //wait till all dom's loaded or querySelector will result null
   btn1 = document.body.querySelector("#btn1");
   btn1.addEventListener("click", () => (container.style.border = "solid"));
   container = document.body.querySelector("#archWorkday");
@@ -57,24 +57,24 @@ function appendSVGwPath(node, svgClass, pathClass, timerArchArray) {
 
   return node.appendChild(dSvg);
 }
-function makeCheckbox(i){
-      var boxes = document.getElementById("boxes");
-      var box = document.createElement('div');
-      box.classList.add("box");
-           var checkbox = document.createElement('input');
-           checkbox.type = "checkbox";
-           //checkbox.name = "chkbox1";
-           checkbox.id = "cbid"+i;
-           box.appendChild(checkbox);
-           var label = document.createElement('label');
-           var tn = document.createTextNode(i);
-           label.htmlFor="cbid";
-           label.appendChild(tn); 
-           box.appendChild(label);
-      boxes.appendChild(box);
-    }
-  
-/*** wesocket functions  *********************/    
+function makeCheckbox(i) {
+  var boxes = document.getElementById("boxes");
+  var box = document.createElement('div');
+  box.classList.add("box");
+  var checkbox = document.createElement('input');
+  checkbox.type = "checkbox";
+  //checkbox.name = "chkbox1";
+  checkbox.id = "cbid" + i;
+  box.appendChild(checkbox);
+  var label = document.createElement('label');
+  var tn = document.createTextNode(i);
+  label.htmlFor = "cbid";
+  label.appendChild(tn);
+  box.appendChild(label);
+  boxes.appendChild(box);
+}
+
+/*** wesocket functions  *********************/
 function initWebSocket() {
   console.log('Trying to open a WebSocket connection…');
   websocket = new WebSocket(gateway);
@@ -82,61 +82,65 @@ function initWebSocket() {
   websocket.onclose = onClose;
   websocket.onmessage = onMessage;
 }
-  
+
 function onOpen(event) {
-      console.log('Websocket Connection opened!');
-      console.log(event);
-      //let ws_array = document.body.dataset.ToServerWStypes.split(/[ ,]+/);
-      //console.log(ws_array);
-  }
-  
+  console.log('Websocket Connection opened!');
+  console.log(event);
+  //let ws_array = document.body.dataset.ToServerWStypes.split(/[ ,]+/);
+  //console.log(ws_array);
+}
+
 function onMessage(event) {
   //document.getElementById('state').innerHTML = event.data;
   //console.log(event.data);
-      
-      console.log("event data: ");
-      console.log(event.data);
-      console.log(typeof(event.data));
-  
-      handleWSmessage(event.data);
-  }
-  
+
+  console.log("event data: ");
+  console.log(event.data);
+  console.log(typeof (event.data));
+
+  handleWSmessage(event.data);
+}
+
 function onClose(event) {
-      console.log('Connection closed');
-      setTimeout(initWebSocket, 2000);
+  console.log('Connection closed');
+  setTimeout(initWebSocket, 2000);
+}
+
+function handleWSmessage(ws_obj_str) { // object string from server websocket data
+  console.log(ws_obj_str);
+  //let ws_obj = JSON.parse(ws_obj_str); // make it js object
+  //let op = parseInt(ws_obj.op_code); // read the int op_code
+  let ws_array = document.body.dataset.toclientwstypes.split(","); // lower case dataset!
+  //ToClientWStypes.split(/[ ,]+/);
+  //input.split(/[ ,]+/);
+  console.log(ws_array);
+  // make array from csv document.body.dataset.ToClient_WStypes ;
+
+  switch (ws_array[op]) {
+    case "SEND_SCHED":
+      // update weight display here without alert
+      //updateScaleDOMs(ws_obj);
+      break;
+    case "SET_SCHED_OK":
+      window.alert("SET_REF_OK");
+      //updateScaleDOMs(ws_obj);
+      break;
+    case "SET_ALWAYS_ON_OK":
+      window.alert("SET_ALWAYS_ON_OK");
+      //updateScaleDOMs(ws_obj);
+      break;
+    case "SET_ALWAYS_OFF_OK":
+      window.alert("SET_ALWAYS_OFF_OK");
+      //updateScaleDOMs(ws_obj);
+      break;
+    case "SET_UXTIME_OK":
+      window.alert("SET_UXTIME_OK");
+      //updateScaleDOMs(ws_obj);
+      break;
+    default:
+      window.alert("invalid opcode: " + ws_array[op]);
+      console.log(ws_array[op]);
+      break;
   }
-  
-  function handleWSmessage(ws_obj_str){ // object string from server websocket data
-    console.log(ws_obj_str);
-    //let ws_obj = JSON.parse(ws_obj_str); // make it js object
-    //let op = parseInt(ws_obj.op_code); // read the int op_code
-    let ws_array = document.body.dataset.toclientwstypes.split(","); // lower case dataset!
-    //ToClientWStypes.split(/[ ,]+/);
-    //input.split(/[ ,]+/);
-    console.log(ws_array);
-    // make array from csv document.body.dataset.ToClient_WStypes ;
- 
-    switch(ws_array[op]) {
-        case "ON_CHG":  
-            // update weight display here without alert
-            updateScaleDOMs(ws_obj);
-            break;
-        case "SET_REF_OK":
-            window.alert("SET_REF_OK");
-            updateScaleDOMs(ws_obj);
-            break;
-        case "SET_BASE_OK":
-            window.alert("SET_BASE_OK");
-            updateScaleDOMs(ws_obj);
-            break;
-        case "SET_REFKG_OK":
-            window.alert("SET_REFKG_OK");
-            updateScaleDOMs(ws_obj);
-            break;
-        default:
-            window.alert("invalid opcode: "+ ws_array[op]);
-            console.log(ws_array[op]);
-            break;
-    }
 
 }
